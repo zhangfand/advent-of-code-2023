@@ -1,0 +1,76 @@
+
+struct Run {
+    red: usize,
+    green: usize,
+    blue: usize,
+}
+
+struct Draw {
+    color: Color,
+    count: usize,
+}
+
+enum Color {
+    Red,
+    Green,
+    Blue
+}
+
+
+struct Game([Run; 3]);
+
+fn main() {
+    println!("Hello, world!");
+
+}
+
+fn parse_line(mut input: &str) -> Option<Run> {
+    let (game, size) = parse_game(input)?;
+
+    // todo: change it to multiple runs.
+    Some(Run{
+        red: 0,
+        green :0,
+        blue: 0,
+    })
+
+}
+
+fn parse_game(input: &mut &str) -> Option<u8> {
+    parse_constant(input, "Game ")?;
+    let num = parse_number(input)?;
+    parse_constant(input, ":");
+
+}
+
+fn parse_run(input: &mut &str) -> Option<Run> {
+
+fn parse_color(input: &mut &str) -> Option<Color> {
+    if parse_constant(input, "red").is_some() {
+        return Some(Color::Red);
+    }
+    if parse_constant(input, "green").is_some() {
+        return Some(Color::Green);
+    }
+    if parse_constant(input, "blue").is_some() {
+        return Some(Color::Blue);
+    }
+    None
+}
+
+fn parse_constant(input: &mut &str, constant: &str) -> Option<()> {
+    if let Some(trimmed) = input.strip_prefix(constant) {
+        *input = trimmed;
+        Some(())
+    } else {
+        None
+    }
+}
+
+fn parse_number(input: &mut &str) -> Option<usize> {
+    let (digits, rest) = input.split_once(|c: char| !c.is_digit(10))?;
+    let num = usize::from_str_radix(digits, 10).ok()?;
+    *input = rest;
+    Some(num)
+}
+
